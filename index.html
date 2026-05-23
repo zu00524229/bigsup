@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CLAUDE 大補帖</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:          #050510;
+      --bg2:         #0a0a1f;
+      --card:        #0d0d2b;
+      --card-hover:  #111138;
+      --cyan:        #00ffff;
+      --pink:        #ff00ff;
+      --green:       #00ff41;
+      --yellow:      #ffff00;
+      --orange:      #ff9900;
+      --border:      #1a1a4f;
+      --text:        #c0c0ff;
+      --dim:         #5050a0;
+      --pixel:       'Press Start 2P', monospace;
+      --mono:        'Share Tech Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(rgba(0,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,255,0.025) 1px, transparent 1px);
+      background-size: 32px 32px;
+      color: var(--text);
+      font-family: var(--mono);
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+
+    /* ── scanlines ── */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(0,0,0,0.18) 3px,
+        rgba(0,0,0,0.18) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── glitch ── */
+    @keyframes glitch-1 {
+      0%,94%,100% { clip-path: inset(0 0 100% 0); transform: translate(0); }
+      95% { clip-path: inset(10% 0 60% 0); transform: translate(-4px, 1px); color: var(--pink); }
+      97% { clip-path: inset(55% 0 20% 0); transform: translate(4px, -1px); color: var(--cyan); }
+    }
+    @keyframes glitch-2 {
+      0%,96%,100% { clip-path: inset(0 0 100% 0); transform: translate(0); }
+      97% { clip-path: inset(40% 0 30% 0); transform: translate(3px, 2px); color: var(--green); }
+      99% { clip-path: inset(70% 0 5% 0);  transform: translate(-3px,-2px); color: var(--pink); }
+    }
+    @keyframes blink   { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+    @keyframes flicker { 0%,100%{opacity:1} 92%{opacity:0.95} 94%{opacity:0.85} 96%{opacity:1} }
+
+    /* ── header ── */
+    header {
+      text-align: center;
+      padding: 60px 20px 40px;
+      animation: flicker 8s infinite;
+    }
+
+    .title-wrap { position: relative; display: inline-block; margin-bottom: 20px; }
+
+    .title-main {
+      font-family: var(--pixel);
+      font-size: clamp(20px, 4vw, 38px);
+      color: var(--cyan);
+      text-shadow: 0 0 8px var(--cyan), 0 0 20px var(--cyan), 0 0 40px rgba(0,255,255,0.4);
+      letter-spacing: 4px;
+      position: relative;
+    }
+    .title-main::before,
+    .title-main::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      font-family: var(--pixel);
+      font-size: inherit;
+      letter-spacing: inherit;
+    }
+    .title-main::before { animation: glitch-1 6s infinite; }
+    .title-main::after  { animation: glitch-2 6s 0.1s infinite; }
+
+    .subtitle {
+      font-family: var(--mono);
+      font-size: 15px;
+      color: var(--dim);
+      margin-top: 16px;
+      letter-spacing: 2px;
+    }
+    .cursor { display: inline-block; animation: blink 1s step-end infinite; color: var(--green); }
+
+    .header-line {
+      width: 100%; max-width: 800px; margin: 28px auto 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--cyan), var(--pink), var(--cyan), transparent);
+      box-shadow: 0 0 10px var(--cyan);
+    }
+
+    /* ── layout ── */
+    main { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+
+    /* ── section ── */
+    .section { margin-top: 60px; }
+
+    .section-header {
+      font-family: var(--pixel);
+      font-size: clamp(9px, 1.8vw, 12px);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      letter-spacing: 1px;
+    }
+    .section-header .icon { font-size: 1.3em; }
+    .section-header .label {
+      padding: 8px 14px;
+      border: 2px solid currentColor;
+      white-space: nowrap;
+      position: relative;
+    }
+    .section-header .label::before {
+      content: "";
+      position: absolute;
+      inset: 3px;
+      border: 1px solid currentColor;
+      opacity: 0.25;
+    }
+    .section-header .line { flex: 1; height: 2px; background: currentColor; opacity: 0.2; }
+
+    .section-intro {
+      font-size: 16px;
+      color: var(--dim);
+      margin-bottom: 20px;
+      line-height: 1.8;
+    }
+
+    .s-lsp    { color: var(--cyan); }
+    .s-browser{ color: var(--pink); }
+    .s-know   { color: var(--green); }
+    .s-flow   { color: var(--yellow); }
+    .s-matt   { color: var(--orange); }
+
+    /* ── card grid: 2 col desktop, 1 col mobile ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+      gap: 14px;
+      align-items: start;
+    }
+
+    /* ── card: horizontal rectangle ── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 22px 26px;
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 24px;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      cursor: default;
+    }
+
+    /* pixel corner decorations */
+    .card::after {
+      content: "";
+      position: absolute;
+      top: 5px; right: 5px;
+      width: 8px; height: 8px;
+      border-top: 2px solid;
+      border-right: 2px solid;
+      border-color: inherit;
+      opacity: 0.4;
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      bottom: 5px; left: 5px;
+      width: 8px; height: 8px;
+      border-bottom: 2px solid;
+      border-left: 2px solid;
+      border-color: inherit;
+      opacity: 0.4;
+    }
+
+    .card.c-cyan   { border-color: rgba(0,255,255,0.2); }
+    .card.c-pink   { border-color: rgba(255,0,255,0.2); }
+    .card.c-green  { border-color: rgba(0,255,65,0.2); }
+    .card.c-yellow { border-color: rgba(255,255,0,0.2); }
+
+    .card.c-cyan:hover   { border-color: var(--cyan);   box-shadow: 0 0 20px rgba(0,255,255,0.25);   transform: translateY(-2px); background: var(--card-hover); }
+    .card.c-pink:hover   { border-color: var(--pink);   box-shadow: 0 0 20px rgba(255,0,255,0.25);   transform: translateY(-2px); background: var(--card-hover); }
+    .card.c-green:hover  { border-color: var(--green);  box-shadow: 0 0 20px rgba(0,255,65,0.25);    transform: translateY(-2px); background: var(--card-hover); }
+    .card.c-yellow:hover { border-color: var(--yellow); box-shadow: 0 0 20px rgba(255,255,0,0.25);   transform: translateY(-2px); background: var(--card-hover); }
+
+    /* left column: name + badge */
+    .card-left {
+      flex: 0 0 auto;
+      width: 160px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 2px;
+    }
+
+    /* right column: desc + extras */
+    .card-right {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .card-name {
+      font-family: var(--pixel);
+      font-size: 15px;
+      letter-spacing: 0.5px;
+      line-height: 1.7;
+      word-break: break-all;
+    }
+    .c-cyan  .card-name { color: var(--cyan);   text-shadow: 0 0 8px var(--cyan); }
+    .c-pink  .card-name { color: var(--pink);   text-shadow: 0 0 8px var(--pink); }
+    .c-green .card-name { color: var(--green);  text-shadow: 0 0 8px var(--green); }
+    .c-yellow .card-name{ color: var(--yellow); text-shadow: 0 0 8px var(--yellow); }
+
+    .card-badge {
+      display: inline-block;
+      font-size: 14px;
+      padding: 5px 12px;
+      border: 1px solid;
+      font-family: var(--mono);
+      letter-spacing: 0.5px;
+      width: fit-content;
+    }
+    .c-cyan  .card-badge { color: var(--cyan);   border-color: rgba(0,255,255,0.35); }
+    .c-pink  .card-badge { color: var(--pink);   border-color: rgba(255,0,255,0.35); }
+    .c-green .card-badge { color: var(--green);  border-color: rgba(0,255,65,0.35); }
+    .c-yellow .card-badge{ color: var(--yellow); border-color: rgba(255,255,0,0.35); }
+
+    .card-desc {
+      font-size: 17px;
+      line-height: 1.8;
+      color: var(--text);
+      opacity: 0.88;
+    }
+
+    .card-note {
+      font-size: 15px;
+      color: var(--dim);
+      line-height: 1.7;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* skill list (superpowers) */
+    .skill-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+    }
+    .skill-item {
+      font-size: 15px;
+      color: var(--dim);
+      padding-left: 16px;
+      position: relative;
+      line-height: 1.6;
+    }
+    .skill-item::before { content: "▸"; position: absolute; left: 0; color: var(--yellow); }
+    .skill-item span { color: var(--yellow); opacity: 0.9; }
+
+    /* ── browser diff note ── */
+    .diff-note {
+      margin-top: 14px;
+      padding: 14px 18px;
+      border-left: 3px solid var(--pink);
+      background: rgba(255,0,255,0.04);
+      font-size: 16px;
+      color: var(--dim);
+      line-height: 1.8;
+    }
+    .diff-note strong { color: var(--pink); }
+
+    /* ── Matt Pocock ── */
+    .install-box {
+      background: var(--bg2);
+      border: 1px solid rgba(255,153,0,0.3);
+      border-radius: 2px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .install-label {
+      color: var(--dim);
+      font-size: 12px;
+      white-space: nowrap;
+      font-family: var(--pixel);
+    }
+    .install-cmd {
+      color: var(--green);
+      text-shadow: 0 0 6px var(--green);
+      font-size: 17px;
+      letter-spacing: 0.5px;
+      word-break: break-all;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      align-items: start;
+    }
+
+    .skill-chip {
+      font-family: var(--mono);
+      font-size: 15px;
+      padding: 14px 18px;
+      border: 1px solid rgba(255,153,0,0.3);
+      border-radius: 2px;
+      background: rgba(255,153,0,0.04);
+      color: var(--orange);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: all 0.2s;
+      cursor: default;
+    }
+    .skill-chip:hover {
+      border-color: var(--orange);
+      background: rgba(255,153,0,0.1);
+      box-shadow: 0 0 12px rgba(255,153,0,0.2);
+      color: #ffbb44;
+    }
+    .skill-chip .cmd  { color: #ffdd77; font-size: 15px; }
+    .skill-chip .desc { color: var(--dim); font-size: 13px; line-height: 1.4; }
+
+    /* ── footer ── */
+    footer {
+      text-align: center;
+      margin-top: 80px;
+      padding: 24px;
+      font-size: 10px;
+      color: var(--dim);
+      border-top: 1px solid var(--border);
+      font-family: var(--pixel);
+      letter-spacing: 1px;
+    }
+    footer .ver { color: var(--cyan); opacity: 0.6; }
+
+    /* ── mobile ── */
+    @media (max-width: 640px) {
+      main { padding: 0 14px; }
+
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        flex-direction: column;
+        gap: 14px;
+        padding: 18px 18px;
+      }
+
+      .card-left {
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .card-name { font-size: 13px; word-break: break-word; }
+      .card-desc { font-size: 16px; }
+
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .skill-chip { font-size: 13px; }
+
+      .section-header .label { font-size: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="title-wrap">
+    <div class="title-main" data-text="CLAUDE 大補帖">CLAUDE 大補帖</div>
+  </div>
+  <div class="subtitle">Claude Code 實用插件全攻略<span class="cursor">_</span></div>
+  <div class="header-line"></div>
+</header>
+
+<main>
+
+  <!-- 01 LSP -->
+  <section class="section s-lsp">
+    <div class="section-header">
+      <span class="icon">⬡</span>
+      <span class="label">01 &gt; 語言伺服器類 LSP</span>
+      <span class="line"></span>
+    </div>
+    <p class="section-intro">讓 Claude 能直接呼叫語言伺服器，取得真實的型別資訊、錯誤診斷、定義跳轉——而不只是「看程式碼猜測」。</p>
+    <div class="card-grid">
+
+      <div class="card c-cyan">
+        <div class="card-left">
+          <div class="card-name">csharp-lsp</div>
+          <div class="card-badge">C#</div>
+        </div>
+        <div class="card-right">
+          <div class="card-desc">Roslyn / OmniSharp 整合，診斷錯誤、跳轉定義、完整型別資訊。</div>
+        </div>
+      </div>
+
+      <div class="card c-cyan">
+        <div class="card-left">
+          <div class="card-name">typescript-lsp</div>
+          <div class="card-badge">TypeScript</div>
+        </div>
+        <div class="card-right">
+          <div class="card-desc">TS 官方語言伺服器，型別檢查、自動補全診斷。</div>
+        </div>
+      </div>
+
+      <div class="card c-cyan">
+        <div class="card-left">
+          <div class="card-name">clangd-lsp</div>
+          <div class="card-badge">C / C++</div>
+        </div>
+        <div class="card-right">
+          <div class="card-desc">clangd 整合，C/C++ 靜態分析與精確型別推斷。</div>
+        </div>
+      </div>
+
+      <div class="card c-cyan">
+        <div class="card-left">
+          <div class="card-name">pyright-lsp</div>
+          <div class="card-badge">Python</div>
+        </div>
+        <div class="card-right">
+          <div class="card-desc">Microsoft Pyright，Python 靜態型別推斷與診斷。</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 02 Browser -->
+  <section class="section s-browser">
+    <div class="section-header">
+      <span class="icon">⬡</span>
+      <span class="label">02 &gt; 瀏覽器自動化類</span>
+      <span class="line"></span>
+    </div>
+    <div class="card-grid">
+
+      <div class="card c-pink">
+        <div class="card-left">
+          <div class="card-name">chrome-devtools-mcp</div>
+          <div class="card-badge">Chrome + Puppeteer</div>
+        </div>
+        <div class="card-right">
+          <div class="card-desc">直接操控 Chrome DevTools，可截圖、監控網路請求、分析效能、自動化操作網頁。</div>
+          <div class="card-note">⚡ 偏重 DevTools 層級的深度除錯</div>
+        </div>
+      </div>
+
+      <div class="card c-pink">
+        <div class="card-left">
+          <div class="card-name">playwright</div>
+          <div class="card-badge">Chrome / Firefox / Safari</div>
+        </div>
+        <div class="card-right">
+          <div class="card-desc">用 Playwright 控制多種瀏覽器，適合跨瀏覽器 UI 測試與自動化流程。</div>
+          <div class="card-note">⚡ 偏重跨瀏覽器自動化測試</div>
+        </div>
+      </div>
+
+    </div>
+    <div class="diff-note">
+      <strong>兩者差異：</strong>chrome-devtools-mcp 能存取 DevTools 內部 API（效能分析、記憶體快照），playwright 勝在跨瀏覽器與 CI 整合。可以同時裝，視需求選用。
+    </div>
+  </section>
+
+  <!-- 03 Knowledge -->
+  <section class="section s-know">
+    <div class="section-header">
+      <span class="icon">⬡</span>
+      <span class="label">03 &gt; 知識查詢類</span>
+      <span class="line"></span>
+    </div>
+    <div class="card-grid">
+
+      <div class="card c-green">
+        <div class="card-left">
+          <div class="card-name">context7</div>
+          <div class="card-badge">Documentation</div>
+        </div>
+        <div class="card-right">
+          <div class="card-desc">即時查詢任何函式庫的最新文件與範例程式碼，避免 Claude 使用過時 API，讓回答永遠基於最新版本。</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 04 Workflow -->
+  <section class="section s-flow">
+    <div class="section-header">
+      <span class="icon">⬡</span>
+      <span class="label">04 &gt; 工作流程強化類</span>
+      <span class="line"></span>
+    </div>
+    <div class="card-grid">
+
+      <div class="card c-yellow">
+        <div class="card-left">
+          <div class="card-name">superpowers v5.x</div>
+          <div class="card-badge">Jesse Vincent</div>
+        </div>
+        <div class="card-right">
+          <div class="card-desc">份量最重的 skill 套件，安裝後 skills 出現在 system-reminder，覆蓋整個開發工作流。</div>
+          <div class="skill-list">
+            <div class="skill-item"><span>brainstorming</span> — 實作前探索需求與設計</div>
+            <div class="skill-item"><span>systematic-debugging</span> — 系統化排查 bug</div>
+            <div class="skill-item"><span>test-driven-development</span> — 先寫測試再實作</div>
+            <div class="skill-item"><span>dispatching-parallel-agents</span> — 並行多 agent 執行</div>
+            <div class="skill-item"><span>requesting/receiving-code-review</span> — Code Review 協作</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card c-yellow">
+        <div class="card-left">
+          <div class="card-name">skill-creator</div>
+          <div class="card-badge">Custom Workflow</div>
+        </div>
+        <div class="card-right">
+          <div class="card-desc">建立、優化、評估自訂 skill。讓你為 Claude 擴充任何專屬工作流程，並透過 eval 量化效果。</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 05 Matt Pocock -->
+  <section class="section s-matt">
+    <div class="section-header">
+      <span class="icon">⬡</span>
+      <span class="label">05 &gt; Matt Pocock Skills</span>
+      <span class="line"></span>
+    </div>
+
+    <div class="install-box">
+      <span class="install-label">INSTALL &gt;</span>
+      <span class="install-cmd">npx skills@latest add mattpocock/skills</span>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skill-chip"><span class="cmd">/diagnose</span><span class="desc">系統化找 bug</span></div>
+      <div class="skill-chip"><span class="cmd">/tdd</span><span class="desc">測試驅動開發</span></div>
+      <div class="skill-chip"><span class="cmd">/grill-me</span><span class="desc">深度討論規劃</span></div>
+      <div class="skill-chip"><span class="cmd">/grill-with-docs</span><span class="desc">需求討論 + 更新文件</span></div>
+      <div class="skill-chip"><span class="cmd">/to-prd</span><span class="desc">對話轉產品需求文件</span></div>
+      <div class="skill-chip"><span class="cmd">/to-issues</span><span class="desc">需求拆成 issue</span></div>
+      <div class="skill-chip"><span class="cmd">/triage</span><span class="desc">優先排序 issue</span></div>
+      <div class="skill-chip"><span class="cmd">/prototype</span><span class="desc">快速原型製作</span></div>
+      <div class="skill-chip"><span class="cmd">/improve-codebase-architecture</span><span class="desc">架構改善</span></div>
+      <div class="skill-chip"><span class="cmd">/zoom-out</span><span class="desc">退一步看全局</span></div>
+      <div class="skill-chip"><span class="cmd">/caveman</span><span class="desc">壓縮溝通減少 token</span></div>
+      <div class="skill-chip"><span class="cmd">/handoff</span><span class="desc">生成交接文件</span></div>
+      <div class="skill-chip"><span class="cmd">/write-a-skill</span><span class="desc">自己寫新 skill</span></div>
+      <div class="skill-chip"><span class="cmd">/setup-matt-pocock-skills</span><span class="desc">初始化問題追蹤</span></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="ver">// CLAUDE 大補帖 // v1.0 // 2026.05 //</div>
+</footer>
+
+</body>
+</html>
