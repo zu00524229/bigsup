@@ -358,6 +358,196 @@
     .skill-chip .cmd  { color: #ffdd77; font-size: 15px; }
     .skill-chip .desc { color: var(--dim); font-size: 13px; line-height: 1.4; }
 
+    /* ── 頂層頁面標籤 ── */
+    .page-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin: 26px auto 0;
+      padding: 0 20px;
+      flex-wrap: wrap;
+    }
+    .page-tab-btn {
+      font-family: var(--pixel);
+      font-size: 11px;
+      letter-spacing: 1px;
+      padding: 13px 24px;
+      background: var(--card);
+      color: var(--dim);
+      border: 2px solid var(--border);
+      border-radius: 2px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s;
+    }
+    .page-tab-btn::after {
+      content: "";
+      position: absolute;
+      top: 4px; right: 4px;
+      width: 7px; height: 7px;
+      border-top: 2px solid currentColor;
+      border-right: 2px solid currentColor;
+      opacity: 0.35;
+    }
+    .page-tab-btn:hover { color: var(--cyan); border-color: rgba(0,255,255,0.45); }
+    .page-tab-btn.on {
+      color: var(--cyan);
+      border-color: var(--cyan);
+      background: var(--card-hover);
+      box-shadow: 0 0 16px rgba(0,255,255,0.3);
+      text-shadow: 0 0 8px var(--cyan);
+    }
+    .page { display: none; }
+    .page.on { display: block; }
+
+    /* ── Herdr 教學:章節子標籤 ── */
+    .ch-tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 34px 0 6px;
+    }
+    .ch-btn {
+      font-family: var(--pixel);
+      font-size: 9px;
+      letter-spacing: 1px;
+      padding: 11px 15px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      color: var(--dim);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .ch-btn:hover { color: var(--orange); border-color: rgba(255,153,0,0.5); }
+    .ch-btn.on {
+      color: var(--orange);
+      border-color: var(--orange);
+      background: rgba(255,153,0,0.07);
+      box-shadow: 0 0 12px rgba(255,153,0,0.25);
+      text-shadow: 0 0 6px var(--orange);
+    }
+    .chapter { display: none; }
+    .chapter.on { display: block; animation: ch-in 0.25s ease; }
+    @keyframes ch-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+    /* ── Herdr 教學:內容元件 ── */
+    .h-lede {
+      font-size: 16px;
+      color: var(--dim);
+      line-height: 1.9;
+      margin: 18px 0 6px;
+    }
+    .h-lede strong { color: var(--text); }
+
+    .term {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      margin: 16px 0;
+      overflow-x: auto;
+    }
+    .term-head {
+      font-family: var(--pixel);
+      font-size: 8px;
+      color: var(--dim);
+      letter-spacing: 1px;
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .term pre {
+      padding: 14px 16px;
+      font-family: var(--mono);
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--green);
+      white-space: pre;
+    }
+    .term .cmt { color: var(--dim); }
+
+    .htbl-wrap { overflow-x: auto; margin: 14px 0; }
+    .htbl { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 560px; }
+    .htbl th {
+      font-family: var(--pixel);
+      font-size: 9px;
+      letter-spacing: 1px;
+      color: var(--orange);
+      text-align: left;
+      padding: 11px 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,153,0,0.05);
+    }
+    .htbl td { padding: 10px 12px; border: 1px solid var(--border); color: var(--text); line-height: 1.7; }
+    .htbl td b { color: var(--cyan); font-weight: normal; }
+    .htbl code, .callout code, .h-lede code, .hier code {
+      font-family: var(--mono);
+      color: #ffdd77;
+      background: rgba(255,153,0,0.08);
+      padding: 1px 6px;
+      border-radius: 2px;
+      font-size: 0.95em;
+    }
+
+    .key {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 13px;
+      padding: 2px 9px;
+      border: 1px solid var(--dim);
+      border-bottom-width: 3px;
+      border-radius: 3px;
+      color: var(--yellow);
+      background: var(--bg2);
+      white-space: nowrap;
+    }
+
+    .callout {
+      margin: 16px 0;
+      padding: 14px 18px;
+      border-left: 3px solid var(--orange);
+      background: rgba(255,153,0,0.05);
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.85;
+    }
+    .callout strong { color: var(--orange); }
+
+    .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 7px; vertical-align: middle; }
+    .dot-working { background: var(--cyan);  box-shadow: 0 0 6px var(--cyan); }
+    .dot-blocked { background: #ff3355;      box-shadow: 0 0 6px #ff3355; }
+    .dot-done    { background: var(--green); box-shadow: 0 0 6px var(--green); }
+    .dot-idle    { background: var(--dim); }
+    .dot-unknown { background: var(--yellow); box-shadow: 0 0 6px var(--yellow); }
+    .st-blocked { color: #ff3355; }
+    .st-working { color: var(--cyan); }
+    .st-done    { color: var(--green); }
+    .st-idle    { color: var(--dim); }
+
+    /* 五層積木巢狀圖 */
+    .hier { margin: 16px 0; }
+    .hier-box {
+      border: 1px dashed rgba(0,255,255,0.4);
+      border-radius: 2px;
+      padding: 12px 14px;
+      margin-top: 10px;
+    }
+    .hier-box .cap {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-family: var(--pixel);
+      font-size: 8px;
+      letter-spacing: 1px;
+      color: var(--cyan);
+      margin-bottom: 2px;
+    }
+    .hier-box .zh { font-family: var(--mono); font-size: 13px; letter-spacing: 0; color: var(--dim); }
+    .hier-box.l2 { border-color: rgba(255,0,255,0.4); }  .hier-box.l2 .cap { color: var(--pink); }
+    .hier-box.l3 { border-color: rgba(0,255,65,0.4); }   .hier-box.l3 .cap { color: var(--green); }
+    .hier-box.l4 { border-color: rgba(255,255,0,0.4); }  .hier-box.l4 .cap { color: var(--yellow); }
+    .hier-box.l5 { border-color: rgba(255,153,0,0.55); } .hier-box.l5 .cap { color: var(--orange); }
+
     /* ── footer ── */
     footer {
       text-align: center;
@@ -403,6 +593,11 @@
       .skill-chip { font-size: 13px; }
 
       .section-header .label { font-size: 8px; }
+
+      .page-tab-btn { font-size: 9px; padding: 11px 16px; }
+      .ch-btn { font-size: 8px; padding: 10px 11px; }
+      .htbl { font-size: 13px; }
+      .term pre { font-size: 13px; }
     }
   </style>
 </head>
@@ -416,7 +611,14 @@
   <div class="header-line"></div>
 </header>
 
+<nav class="page-tabs" role="tablist" aria-label="頁面切換">
+  <button class="page-tab-btn on" data-page="page-plugins" role="tab" aria-selected="true">◆ 插件大補帖</button>
+  <button class="page-tab-btn" data-page="page-herdr" role="tab" aria-selected="false">◆ HERDR 教學</button>
+</nav>
+
 <main>
+
+<div class="page on" id="page-plugins">
 
   <!-- 01 LSP -->
   <section class="section s-lsp">
@@ -600,11 +802,328 @@
     </div>
   </section>
 
+</div><!-- /page-plugins -->
+
+<!-- ═══════════════ HERDR 教學 ═══════════════ -->
+<div class="page" id="page-herdr">
+
+  <p class="h-lede" style="margin-top:34px">
+    <strong>Herdr</strong> 是一個 <strong>agent 多工器（agent multiplexer）</strong>——官方一句話定位：
+    「Herdr 之於 coding agent，就像 tmux 之於終端機」。同時開好幾個 Claude Code / Codex 時，
+    它讓你在<strong>一個終端機</strong>裡看清楚：誰在跑、誰卡住等你、誰做完了；而且蓋上筆電，agent 照樣繼續跑。
+  </p>
+
+  <div class="ch-tabs" role="tablist" aria-label="教學章節">
+    <button class="ch-btn on" data-ch="ch-intro" role="tab" aria-selected="true">01 認識 HERDR</button>
+    <button class="ch-btn" data-ch="ch-install" role="tab" aria-selected="false">02 安裝啟動</button>
+    <button class="ch-btn" data-ch="ch-concepts" role="tab" aria-selected="false">03 核心概念</button>
+    <button class="ch-btn" data-ch="ch-cheat" role="tab" aria-selected="false">04 指令速查</button>
+  </div>
+
+  <!-- ── 01 認識 Herdr ── -->
+  <div class="chapter on" id="ch-intro">
+    <section class="section s-lsp" style="margin-top:30px">
+      <div class="section-header">
+        <span class="icon">🐑</span>
+        <span class="label">01 &gt; 認識 HERDR：AI 代理的牧羊人</span>
+        <span class="line"></span>
+      </div>
+      <p class="section-intro">
+        把每一隻 coding agent 想成一隻羊：放出去工作後各忙各的，沒有牧羊人時你得一個視窗一個視窗巡。
+        Herdr（= herder，牧羊人）把整群羊圈進同一個終端機，側欄一眼告訴你——
+        哪隻在吃草（working）、哪隻咩咩叫等你開門（blocked）、哪隻吃飽趴著了（done）。
+      </p>
+
+      <div class="card-grid">
+        <div class="card c-cyan">
+          <div class="card-left">
+            <div class="card-name">它不是</div>
+            <div class="card-badge">NOT</div>
+          </div>
+          <div class="card-right">
+            <div class="card-desc">不是終端機模擬器——Ghostty / iTerm / Kitty 照常用，Herdr 是在裡面跑的 TUI；也不是網頁儀表板——沒有網頁、沒有帳號、沒有雲端控制台。</div>
+          </div>
+        </div>
+        <div class="card c-yellow">
+          <div class="card-left">
+            <div class="card-name">它是</div>
+            <div class="card-badge">YES</div>
+          </div>
+          <div class="card-right">
+            <div class="card-desc">「聽得懂 agent」的 tmux：持久會話 + 可點擊窗格 + agent 狀態辨識 + 自動化 API。單一 Rust 執行檔，免註冊帳號、無遙測。</div>
+            <div class="card-note">⚡ Linux / macOS 穩定版；Windows 目前為預覽測試版</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="htbl-wrap">
+        <table class="htbl">
+          <thead><tr><th>能力</th><th>tmux / Zellij</th><th>桌面 Agent App</th><th>HERDR</th></tr></thead>
+          <tbody>
+            <tr><td>直接在你的終端機裡跑</td><td>✓</td><td>—</td><td><b>✓</b></td></tr>
+            <tr><td>關掉視窗後程序仍存活（持久 PTY）</td><td>✓</td><td>有限</td><td><b>✓</b></td></tr>
+            <tr><td>從遠端 SSH 接回同一個畫面</td><td>✓</td><td>有限</td><td><b>✓</b></td></tr>
+            <tr><td>看得懂 agent 狀態（工作中 / 卡住 / 完成）</td><td>—</td><td>部分</td><td><b>✓</b></td></tr>
+            <tr><td>單獨接上某一隻 agent 的終端機</td><td>—</td><td>—</td><td><b>✓</b></td></tr>
+            <tr><td>agent 可反過來指揮它（CLI + JSON API）</td><td>可寫指令稿</td><td>部分</td><td><b>✓</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout">
+        <strong>和 tmux 最大的差別：</strong>tmux 只看到「一個程序」，Herdr 看得懂「這隻 agent 現在需不需要你」。
+        tmux 很會養程序但不懂 agent；桌面 App 懂 agent 卻離不開那台有螢幕的電腦——Herdr 兩邊都要。
+      </div>
+    </section>
+  </div>
+
+  <!-- ── 02 安裝啟動 ── -->
+  <div class="chapter" id="ch-install">
+    <section class="section s-know" style="margin-top:30px">
+      <div class="section-header">
+        <span class="icon">⚡</span>
+        <span class="label">02 &gt; 安裝與啟動：五分鐘讓羊群進牧場</span>
+        <span class="line"></span>
+      </div>
+      <p class="section-intro">選一種你熟悉的安裝方式就好。裝完之後，啟動 Herdr 只需要打一個字：<code>herdr</code>。</p>
+
+      <div class="term">
+        <div class="term-head">STEP 1 &gt; 安裝（擇一）</div>
+        <pre><span class="cmt"># 指令稿（Linux / macOS，最快）</span>
+$ curl -fsSL https://herdr.dev/install.sh | sh
+
+<span class="cmt"># Homebrew</span>
+$ brew install herdr
+
+<span class="cmt"># mise</span>
+$ mise use -g herdr
+
+<span class="cmt"># Windows（預覽測試版）</span>
+PS&gt; irm https://herdr.dev/install.ps1 | iex</pre>
+      </div>
+
+      <div class="term">
+        <div class="term-head">STEP 2 &gt; 啟動與驗證</div>
+        <pre>$ cd ~/my-project
+$ herdr</pre>
+      </div>
+      <p class="h-lede">
+        這一行做了很多事：Herdr 會<strong>啟動（或接上）一個背景伺服器</strong>、自動開好第一個工作區。
+        你不用管 socket 或伺服器細節——之後就算你離開，agent 也會繼續跑。
+        如果 shell 說找不到 <code>herdr</code>，重開終端機或確認安裝目錄在 PATH 裡。
+      </p>
+
+      <div class="term">
+        <div class="term-head">STEP 3 &gt; 放第一隻羊進來</div>
+        <pre>$ claude   <span class="cmt"># 或 codex、opencode、pi、copilot …任選</span>
+<span class="cmt"># 側欄馬上出現這隻 agent，並開始顯示牠的狀態</span></pre>
+      </div>
+      <p class="h-lede">
+        在窗格裡照平常的方式啟動 coding agent，Herdr 會<strong>自動認出牠</strong>。
+        支援自動偵測的包括 <strong>Claude Code、Codex、Pi、OpenCode、GitHub Copilot CLI、Cursor、Droid、Amp</strong> 等；
+        沒列到的一樣能當普通終端機程式跑，只是狀態資訊比較陽春。
+      </p>
+
+      <div class="term">
+        <div class="term-head">之後怎麼更新？</div>
+        <pre>$ herdr update               <span class="cmt"># 指令稿 / 手動安裝的人用這個</span>
+$ herdr channel set preview  <span class="cmt"># 搶先試預覽版</span>
+$ herdr channel set stable   <span class="cmt"># 換回穩定版</span>
+<span class="cmt"># Homebrew / mise 安裝的人，改用各自的套件管理器更新</span></pre>
+      </div>
+
+      <div class="callout">
+        <strong>小提醒：</strong>更新如果動到「客戶端 / 伺服器通訊協定」，Herdr 會問你要不要停掉舊伺服器。
+        停掉會結束窗格裡的程序，所以挑羊群都閒著的時機：<code>herdr server stop</code> 之後重新 <code>herdr</code>。
+      </div>
+    </section>
+  </div>
+
+  <!-- ── 03 核心概念 ── -->
+  <div class="chapter" id="ch-concepts">
+    <section class="section s-browser" style="margin-top:30px">
+      <div class="section-header">
+        <span class="icon">🧱</span>
+        <span class="label">03 &gt; 核心概念：五層樂高 + 狀態燈號</span>
+        <span class="line"></span>
+      </div>
+      <p class="section-intro">
+        Herdr 的世界只有五種積木，由外往內一層包一層：Session → Workspace → Tab → Pane → Agent。
+        用牧場比喻一次記起來。
+      </p>
+
+      <div class="hier">
+        <div class="hier-box">
+          <div class="cap"><span>SESSION 會話</span><span class="zh">整座牧場：背景伺服器，燈永遠亮著</span></div>
+          <div class="hier-box l2">
+            <div class="cap"><span>WORKSPACE 工作區</span><span class="zh">一個圍欄 = 一個專案（官方建議：一個 repo 一欄）</span></div>
+            <div class="hier-box l3">
+              <div class="cap"><span>TAB 分頁</span><span class="zh">圍欄裡的分區：agents / logs / server / review</span></div>
+              <div class="hier-box l4">
+                <div class="cap"><span>PANE 窗格</span><span class="zh">一格柵欄 = 一個真正的終端機（真實 PTY），離線後照樣活著</span></div>
+                <div class="hier-box l5">
+                  <div class="cap"><span>AGENT 代理</span><span class="zh">住在柵欄裡的羊：窗格是「地點」，agent 是「住客」，可以空著也可以換人住</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>為什麼「一個專案一個工作區」？</strong>因為狀態是「往上彙整」的——工作區會匯總裡面所有 agent 的狀態，
+        一個專案一欄，你才看得出<strong>是哪個專案在等你</strong>。
+      </div>
+
+      <p class="h-lede">
+        <strong>客戶端 vs 伺服器——為什麼關筆電羊還在？</strong>
+        Herdr 拆成兩半：<strong>伺服器</strong>擁有所有窗格與程序（住在背景）；<strong>客戶端</strong>只是你眼前的終端機介面。
+        按 <span class="key">Ctrl+B</span> <span class="key">Q</span> 把客戶端「摘掉」（detach），伺服器和所有 agent 完全不受影響。
+        直接關掉終端機視窗效果也一樣——都只是摘掉客戶端。
+      </p>
+
+      <div class="term">
+        <div class="term-head">會話的生與死</div>
+        <pre>$ herdr               <span class="cmt"># 接上（或啟動）預設 session</span>
+<span class="cmt"># Ctrl+B 再按 Q → 摘掉客戶端，一切照跑</span>
+$ herdr               <span class="cmt"># 隨時接回來，畫面跟離開時一樣</span>
+$ herdr server stop   <span class="cmt"># 真的要收工：停伺服器，程序也會結束</span></pre>
+      </div>
+
+      <p class="h-lede"><strong>五種 agent 狀態</strong>——這是 Herdr 的靈魂功能，側欄燈號的意義：</p>
+      <div class="htbl-wrap">
+        <table class="htbl">
+          <thead><tr><th>狀態</th><th>意思</th><th>你要做什麼</th></tr></thead>
+          <tbody>
+            <tr><td><span class="dot dot-working"></span><span class="st-working">working</span></td><td>正在吃草：agent 埋頭工作中。</td><td>放著，先去忙別的專案。</td></tr>
+            <tr><td><span class="dot dot-blocked"></span><span class="st-blocked">blocked</span></td><td>咩咩叫等你：出現批准 / 提問 UI，需要你做決定。</td><td><b>最優先處理</b>，會把整個工作區染紅。</td></tr>
+            <tr><td><span class="dot dot-done"></span><span class="st-done">done</span></td><td>做完了、但你還沒去看。</td><td>去驗收；看過那個分頁後轉為 idle。</td></tr>
+            <tr><td><span class="dot dot-idle"></span><span class="st-idle">idle</span></td><td>待命：事情看過了、也沒人在跑。</td><td>不用理。</td></tr>
+            <tr><td><span class="dot dot-unknown"></span>unknown</td><td>認不出這個程序的狀態。</td><td>當普通終端機用即可。</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout">
+        <strong>彙整規則（由強到弱）：</strong><span class="st-blocked">blocked</span> &gt; <span class="st-working">working</span> &gt;
+        <span class="st-done">done</span> &gt; <span class="st-idle">idle</span>。狀態從窗格 → 分頁 → 工作區一路往上滾，
+        掃一眼側欄就知道該先去哪個專案。<br>
+        <strong>done 和 idle 最容易搞混：</strong>底層是同一種「閒下來」，差別只在<strong>你看過了沒</strong>——
+        而且用 CLI 讀輸出<strong>不算</strong>看過。<br>
+        <strong>blocked 的判定刻意保守：</strong>只有畫面明確出現已知的批准 / 提問 UI 才標 blocked；
+        偵測只影響顯示與等待，<strong>絕不會替你按同意</strong>。
+      </div>
+    </section>
+  </div>
+
+  <!-- ── 04 指令速查 ── -->
+  <div class="chapter" id="ch-cheat">
+    <section class="section s-matt" style="margin-top:30px">
+      <div class="section-header">
+        <span class="icon">⌨️</span>
+        <span class="label">04 &gt; 指令速查：鍵盤、CLI、遠端</span>
+        <span class="line"></span>
+      </div>
+      <p class="section-intro">
+        所有快捷鍵都是「前綴鍵」模式：先按 Ctrl+B，下一個鍵才是給 Herdr 的命令。
+        其實滑鼠就能做完所有事——點窗格聚焦、拖邊框調大小、右鍵開選單、拖曳選字即複製；鍵盤只是進階選配。
+      </p>
+
+      <div class="htbl-wrap">
+        <table class="htbl">
+          <thead><tr><th>按鍵（先按 Ctrl+B）</th><th>動作</th></tr></thead>
+          <tbody>
+            <tr><td><span class="key">V</span></td><td>向右分割窗格</td></tr>
+            <tr><td><span class="key">−</span></td><td>向下分割窗格</td></tr>
+            <tr><td><span class="key">C</span></td><td>開新分頁</td></tr>
+            <tr><td><span class="key">N</span> / <span class="key">P</span></td><td>切換下一個 / 上一個分頁</td></tr>
+            <tr><td><span class="key">Shift+N</span></td><td>開新工作區</td></tr>
+            <tr><td><span class="key">W</span></td><td>導覽模式：在專案（工作區）之間跳來跳去</td></tr>
+            <tr><td><span class="key">Q</span></td><td>摘離（detach）：摘掉客戶端，agent 照跑</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="term">
+        <div class="term-head">常用 CLI</div>
+        <pre><span class="cmt"># 會話</span>
+$ herdr                        <span class="cmt"># 接上（或啟動）預設 session</span>
+$ herdr session list           <span class="cmt"># 列出具名 session</span>
+$ herdr session attach work    <span class="cmt"># 完全獨立的另一套環境</span>
+$ herdr server stop            <span class="cmt"># 收工：停伺服器（程序會結束）</span>
+
+<span class="cmt"># Agent</span>
+$ herdr agent attach reviewer  <span class="cmt"># 不開整個介面，只接上一隻 agent</span>
+$ herdr agent start reviewer --kind codex --pane w1:p2
+$ herdr agent prompt reviewer "審查目前的 diff" --wait
+$ herdr agent read reviewer --source recent-unwrapped
+$ herdr integration install claude  <span class="cmt"># 提升狀態偵測品質</span>
+
+<span class="cmt"># Pane（普通程序用這組，不是 agent 也能自動化）</span>
+$ herdr pane split --current --direction right
+$ herdr pane run w1:p3 "just test"
+$ herdr pane wait-output w1:p3 --regex "passed|failed"</pre>
+      </div>
+
+      <div class="callout">
+        <strong>agent 指揮 agent：</strong>所有「建立類」指令都回傳 JSON，指令稿（或另一隻 agent）可以照
+        「開窗格 → 啟動 agent → 派工 → 等狀態 → 讀結果」的流程指揮整個牧場。
+        注意 <code>agent start</code> 不會自己開窗格——窗格是地點、agent 是住客，要先用 <code>pane split</code> 準備好。
+      </div>
+
+      <div class="htbl-wrap">
+        <table class="htbl">
+          <thead><tr><th>遠端模式</th><th>指令</th><th>特色</th></tr></thead>
+          <tbody>
+            <tr><td><b>本機</b></td><td><code>herdr</code></td><td>最日常：羊養在自己電腦。</td></tr>
+            <tr><td><b>SSH 上去跑</b></td><td><code>ssh you@server</code> 再 <code>herdr</code></td><td>像 tmux 的經典做法，手機 SSH App 也適用。</td></tr>
+            <tr><td><b>原生遠端接入</b></td><td><code>herdr --remote workbox</code></td><td>本機薄客戶端：沿用本機快捷鍵、剪貼簿橋接（連圖片都能貼過去）、遠端沒裝還會幫你裝。</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="term">
+        <div class="term-head">外掛市集（150+ 社群外掛）</div>
+        <pre>$ herdr plugin install &lt;owner&gt;/&lt;repo&gt;
+<span class="cmt"># 上架只要在 GitHub repo 加上 herdr-plugin topic，市集自動收錄</span></pre>
+      </div>
+    </section>
+  </div>
+
+</div><!-- /page-herdr -->
+
 </main>
 
 <footer>
-  <div class="ver">// CLAUDE 大補帖 // v1.0 // 2026.05 //</div>
+  <div class="ver">// CLAUDE 大補帖 // v1.1 // 2026.08 //</div>
 </footer>
+
+<script>
+  document.querySelectorAll('.page-tab-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.page-tab-btn').forEach(function (b) {
+        b.classList.toggle('on', b === btn);
+        b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+      });
+      document.querySelectorAll('.page').forEach(function (p) {
+        p.classList.toggle('on', p.id === btn.dataset.page);
+      });
+      window.scrollTo({ top: 0 });
+    });
+  });
+
+  document.querySelectorAll('.ch-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.ch-btn').forEach(function (b) {
+        b.classList.toggle('on', b === btn);
+        b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+      });
+      document.querySelectorAll('.chapter').forEach(function (c) {
+        c.classList.toggle('on', c.id === btn.dataset.ch);
+      });
+    });
+  });
+</script>
 
 </body>
 </html>
